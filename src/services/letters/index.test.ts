@@ -1,5 +1,6 @@
 import LettersService from "./index";
 import { Letter } from "./types.d";
+import { EMAIL_ADDRESS } from "../../shared/constants/email";
 
 type LetterData = Omit<Letter, "id">;
 
@@ -245,8 +246,8 @@ describe("LettersService", () => {
       const result = await service.sendPendingLetters();
 
       expect(mockSendMail).toHaveBeenCalledWith({
-        from: "test@ethereal.email",
-        to: "test@ethereal.email",
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: "Letter to 🎅 from Tommy Smith",
         text: "Dear Santa, I would like a bike for Christmas!",
       });
@@ -279,14 +280,14 @@ describe("LettersService", () => {
 
       expect(mockSendMail).toHaveBeenCalledTimes(2);
       expect(mockSendMail).toHaveBeenNthCalledWith(1, {
-        from: "test@ethereal.email",
-        to: "test@ethereal.email",
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: "Letter to 🎅 from Tommy",
         text: "Dear Santa, I want a bike!",
       });
       expect(mockSendMail).toHaveBeenNthCalledWith(2, {
-        from: "test@ethereal.email",
-        to: "test@ethereal.email",
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: "Letter to 🎅 from Sally",
         text: "Dear Santa, I want a doll!",
       });
@@ -327,8 +328,8 @@ describe("LettersService", () => {
       await service.sendPendingLetters();
 
       expect(mockSendMail).toHaveBeenCalledWith({
-        from: "test@ethereal.email",
-        to: "test@ethereal.email",
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: "Letter to 🎅 from José María",
         text: "¡Hola Santa!",
       });
@@ -349,8 +350,8 @@ describe("LettersService", () => {
       await service.sendPendingLetters();
 
       expect(mockSendMail).toHaveBeenCalledWith({
-        from: "test@ethereal.email",
-        to: "test@ethereal.email",
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: "Letter to 🎅 from Tommy",
         text: "",
       });

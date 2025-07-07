@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import nodemailer, { Transporter } from "nodemailer";
 import { Email, Letter } from "./types";
+import { EMAIL_ADDRESS } from "../../shared/constants/email";
 
 type LetterData = Omit<Letter, "id">;
 
@@ -46,8 +47,8 @@ class LettersService {
   private async sendLetter(letter: Letter) {
     try {
       const email: Email = {
-        from: process.env.ETHEREAL_EMAIL!,
-        to: process.env.ETHEREAL_EMAIL!,
+        from: EMAIL_ADDRESS.FROM,
+        to: EMAIL_ADDRESS.TO,
         subject: `Letter to 🎅 from ${letter.username}`,
         text: letter.message,
       };
