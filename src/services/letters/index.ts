@@ -64,7 +64,7 @@ class LettersService {
     try {
       const letters = this._pendingLetters;
 
-      await Promise.all(letters.map(this.sendLetter));
+      await Promise.all(letters.map(letter => this.sendLetter(letter)));
 
       this.sentLetters = [...this.sentLetters, ...letters];
       this._pendingLetters = [];
