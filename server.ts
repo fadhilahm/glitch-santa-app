@@ -1,7 +1,7 @@
-const express = require("express");
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const path = require("path");
+import express from "express";
+import morgan from "morgan";
+import bodyParser from "body-parser";
+import path from "path";
 
 const app = express();
 
@@ -22,4 +22,4 @@ const listener = app.listen(process.env.PORT || 3000, function () {
   }
 });
 
-module.exports = app;
+export default app;
