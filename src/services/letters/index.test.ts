@@ -248,7 +248,7 @@ describe("LettersService", () => {
       expect(mockSendMail).toHaveBeenCalledWith({
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: "Letter to 🎅 from Tommy Smith",
+        subject: "Letter to 🎅 from Tommy Smith at 123 Main St, Anytown, USA",
         text: "Dear Santa, I would like a bike for Christmas!",
       });
 
@@ -282,13 +282,13 @@ describe("LettersService", () => {
       expect(mockSendMail).toHaveBeenNthCalledWith(1, {
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: "Letter to 🎅 from Tommy",
+        subject: "Letter to 🎅 from Tommy at 123 Main St",
         text: "Dear Santa, I want a bike!",
       });
       expect(mockSendMail).toHaveBeenNthCalledWith(2, {
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: "Letter to 🎅 from Sally",
+        subject: "Letter to 🎅 from Sally at 456 Oak St",
         text: "Dear Santa, I want a doll!",
       });
 
@@ -332,7 +332,7 @@ describe("LettersService", () => {
       expect(mockSendMail).toHaveBeenCalledWith({
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: "Letter to 🎅 from José María",
+        subject: "Letter to 🎅 from José María at 456 Oak Street",
         text: "¡Hola Santa!",
       });
     });
@@ -354,7 +354,7 @@ describe("LettersService", () => {
       expect(mockSendMail).toHaveBeenCalledWith({
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: "Letter to 🎅 from Tommy",
+        subject: "Letter to 🎅 from Tommy at 123 Main St",
         text: "",
       });
     });

@@ -49,7 +49,7 @@ class LettersService {
       const email: Email = {
         from: EMAIL_ADDRESS.FROM,
         to: EMAIL_ADDRESS.TO,
-        subject: `Letter to 🎅 from ${letter.username}`,
+        subject: `Letter to 🎅 from ${letter.username} at ${letter.address}`,
         text: letter.message,
       };
       const info = await this.transporter.sendMail(email);
