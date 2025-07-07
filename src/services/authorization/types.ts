@@ -1,4 +1,4 @@
-import { ErrorResponse, HttpCode  } from '@customTypes/response';
+import { ErrorResponse, HttpCode } from "@customTypes/response";
 
 export interface User {
   id: string;
@@ -20,4 +20,4 @@ export interface ValidationResult {
     code: HttpCode;
     message: string;
   };
-} 
+}

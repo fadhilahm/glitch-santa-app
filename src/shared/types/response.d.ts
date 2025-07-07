@@ -1,4 +1,8 @@
-import { SUCCESS_HTTP_CODES, ERROR_HTTP_CODES, HTTP_CODES } from '@constants/httpCodes';
+import {
+  SUCCESS_HTTP_CODES,
+  ERROR_HTTP_CODES,
+  HTTP_CODES,
+} from "@constants/httpCodes";
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 
@@ -17,7 +21,7 @@ export interface ErrorResponse {
   status: (typeof ERROR_HTTP_CODES)[number];
 }
 
-export type SuccessHttpCode =  typeof SUCCESS_HTTP_CODES[number];
-export type ErrorHttpCode =  typeof ERROR_HTTP_CODES[number];
+export type SuccessHttpCode = (typeof SUCCESS_HTTP_CODES)[number];
+export type ErrorHttpCode = (typeof ERROR_HTTP_CODES)[number];
 
 export type HttpCode = SuccessHttpCode | ErrorHttpCode;
