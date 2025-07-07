@@ -24,8 +24,7 @@ class SchedulerService {
   ) {
     this.lettersService = lettersService;
     this._config = {
-      // intervalMinutes: 1, // for testing
-        intervalMinutes: 15,
+      intervalSeconds: 15,
       enabled: true,
       ...config,
     };
@@ -42,7 +41,7 @@ class SchedulerService {
       return;
     }
 
-    const cronExpression = `0 */${this._config.intervalMinutes} * * * *`;
+    const cronExpression = `*/${this._config.intervalSeconds} * * * * *`;
 
     this.cronJob = cron.schedule(cronExpression, async () => {
       console.log(
@@ -53,7 +52,7 @@ class SchedulerService {
 
     this.isRunning = true;
     console.log(
-      `✅ Letter processing scheduler started - checking every ${this._config.intervalMinutes} minutes`
+      `✅ Letter processing scheduler started - checking every ${this._config.intervalSeconds} seconds`
     );
   }
 
@@ -70,7 +69,7 @@ class SchedulerService {
     return {
       isRunning: this.isRunning,
       nextRun: this.isRunning
-        ? new Date(Date.now() + this._config.intervalMinutes * 60 * 1000)
+        ? new Date(Date.now() + this._config.intervalSeconds * 1000)
         : undefined,
       lastCheck: this.lastCheck,
       totalEmailsProcessed: this.totalLettersProcessed,

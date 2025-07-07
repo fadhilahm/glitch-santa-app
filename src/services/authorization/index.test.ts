@@ -126,12 +126,14 @@ describe("AuthorizationService", () => {
       // Arrange
       const currentYear = new Date().getFullYear();
       const customUsers = [{ uid: "test", username: "test.user" }];
-      const customProfiles = [{ 
-        userUid: "test", 
-        address: "Test St", 
-        birthdate: `${currentYear - 8}/01/01` // 8 years old
-      }];
-      
+      const customProfiles = [
+        {
+          userUid: "test",
+          address: "Test St",
+          birthdate: `${currentYear - 8}/01/01`, // 8 years old
+        },
+      ];
+
       const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
       mockFetch
         .mockResolvedValueOnce({

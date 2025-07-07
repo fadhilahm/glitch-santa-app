@@ -10,10 +10,13 @@ import AuthorizationService from "../services/authorization";
 const router = Router();
 const authService = new AuthorizationService();
 
-const renderTemplate = (templatePath: string, variables: Record<string, string> = {}) => {
-  let template = fs.readFileSync(templatePath, 'utf8');
+const renderTemplate = (
+  templatePath: string,
+  variables: Record<string, string> = {}
+) => {
+  let template = fs.readFileSync(templatePath, "utf8");
   Object.entries(variables).forEach(([key, value]) => {
-    template = template.replace(new RegExp(`{{${key}}}`, 'g'), value);
+    template = template.replace(new RegExp(`{{${key}}}`, "g"), value);
   });
   return template;
 };
@@ -29,15 +32,17 @@ router.post(
     try {
       const lettersService = request.app.locals.lettersService;
       const { username, address, message } = request.body;
-      
+
       const validationResult = await authService.validateUser(username);
-      
+
       if (!validationResult.isValid) {
         const errorTemplate = renderTemplate(
           path.join(__dirname, "../views/error.html"),
           { ERROR_MESSAGE: validationResult.error?.message || "Unknown error" }
         );
-        return response.status(validationResult.error?.code || 400).send(errorTemplate);
+        return response
+          .status(validationResult.error?.code || 400)
+          .send(errorTemplate);
       }
 
       await lettersService.create({

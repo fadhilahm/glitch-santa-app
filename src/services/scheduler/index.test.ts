@@ -43,14 +43,14 @@ describe("SchedulerService", () => {
     });
 
     it("should accept custom configuration", () => {
-      const customConfig = { intervalMinutes: 30, enabled: false };
+      const customConfig = { intervalSeconds: 30, enabled: false };
       const customScheduler = new SchedulerService(
         lettersService,
         customConfig
       );
 
       const stats = customScheduler.getStatistics();
-      expect(stats.config.intervalMinutes).toBe(30);
+      expect(stats.config.intervalSeconds).toBe(30);
       expect(stats.config.enabled).toBe(false);
     });
   });
@@ -60,7 +60,7 @@ describe("SchedulerService", () => {
       schedulerService.start();
 
       expect(mockCron.schedule).toHaveBeenCalledWith(
-        "0 */1 * * * *",
+        "*/15 * * * * *",
         expect.any(Function)
       );
       expect(schedulerService.getStatus().isRunning).toBe(true);
@@ -85,12 +85,12 @@ describe("SchedulerService", () => {
 
     it("should use custom interval in cron expression", () => {
       const customScheduler = new SchedulerService(lettersService, {
-        intervalMinutes: 30,
+        intervalSeconds: 30,
       });
       customScheduler.start();
 
       expect(mockCron.schedule).toHaveBeenCalledWith(
-        "0 */30 * * * *",
+        "*/30 * * * * *",
         expect.any(Function)
       );
     });
@@ -139,21 +139,21 @@ describe("SchedulerService", () => {
       mockCron.schedule.mockReturnValue({ stop: mockStop });
 
       schedulerService.start();
-      schedulerService.updateConfig({ intervalMinutes: 30 });
+      schedulerService.updateConfig({ intervalSeconds: 30 });
 
       expect(mockStop).toHaveBeenCalled();
       expect(mockCron.schedule).toHaveBeenCalledTimes(2);
       expect(mockCron.schedule).toHaveBeenLastCalledWith(
-        "0 */30 * * * *",
+        "*/30 * * * * *",
         expect.any(Function)
       );
     });
 
     it("should not restart if not currently running", () => {
-      schedulerService.updateConfig({ intervalMinutes: 30 });
+      schedulerService.updateConfig({ intervalSeconds: 30 });
 
       expect(mockCron.schedule).not.toHaveBeenCalled();
-      expect(schedulerService.getStatistics().config.intervalMinutes).toBe(30);
+      expect(schedulerService.getStatistics().config.intervalSeconds).toBe(30);
     });
 
     it("should disable scheduler if enabled is set to false", () => {
@@ -283,7 +283,7 @@ describe("SchedulerService", () => {
       expect(stats).toHaveProperty("isRunning");
       expect(stats).toHaveProperty("lastCheck");
       expect(stats).toHaveProperty("config");
-      expect(stats.config).toHaveProperty("intervalMinutes");
+      expect(stats.config).toHaveProperty("intervalSeconds");
       expect(stats.config).toHaveProperty("enabled");
     });
   });

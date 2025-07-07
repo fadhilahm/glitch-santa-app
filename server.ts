@@ -30,7 +30,7 @@ const listener = app.listen(process.env.PORT || 3000, function () {
 
     schedulerService.start();
     console.log(
-      `📧 Letter processing scheduler started - checking every ${schedulerService.config.intervalMinutes} minutes`
+      `📧 Letter processing scheduler started - checking every ${schedulerService.config.intervalSeconds} seconds`
     );
   }
 });

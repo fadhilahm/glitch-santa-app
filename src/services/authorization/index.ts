@@ -55,7 +55,7 @@ class AuthorizationService {
     }
 
     // Parse YYYY/MM/DD format safely
-    const [year, month, day] = profile.birthdate.split('/').map(Number);
+    const [year, month, day] = profile.birthdate.split("/").map(Number);
     const birthDate = new Date(year, month - 1, day); // month is 0-indexed
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();

@@ -19,6 +19,6 @@ export interface SchedulerStatus {
 }
 
 export interface SchedulerConfig {
-  intervalMinutes: number;
+  intervalSeconds: number;
   enabled: boolean;
 }
