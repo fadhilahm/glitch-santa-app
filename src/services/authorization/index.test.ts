@@ -123,6 +123,9 @@ describe("AuthorizationService", () => {
 
     it("should handle API fetch errors", async () => {
       // Arrange
+      const consoleSpy = jest
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
       const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
       mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
@@ -130,10 +133,16 @@ describe("AuthorizationService", () => {
       await expect(authService.validateUser("1")).rejects.toThrow(
         "Failed to fetch user data"
       );
+
+      // Cleanup
+      consoleSpy.mockRestore();
     });
 
     it("should handle API response not ok", async () => {
       // Arrange
+      const consoleSpy = jest
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
       const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
       mockFetch.mockResolvedValueOnce({
         ok: false,
@@ -144,6 +153,9 @@ describe("AuthorizationService", () => {
       await expect(authService.validateUser("1")).rejects.toThrow(
         "Failed to fetch user data"
       );
+
+      // Cleanup
+      consoleSpy.mockRestore();
     });
   });
 

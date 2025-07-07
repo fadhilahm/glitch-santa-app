@@ -19,18 +19,18 @@ describe("LettersService", () => {
   beforeEach(() => {
     process.env.ETHEREAL_EMAIL = "test@ethereal.email";
     process.env.ETHEREAL_PASSWORD = "testpassword";
-    
+
     mockSendMail.mockClear();
     mockSendMail.mockResolvedValue({
       messageId: "test-message-id-default",
     });
-    
+
     mockNodemailer.createTransport.mockReturnValue({
       sendMail: mockSendMail,
     });
-    
+
     service = new LettersService();
-    
+
     jest.spyOn(console, "log").mockImplementation(() => {});
     jest.spyOn(console, "error").mockImplementation(() => {});
   });
@@ -204,7 +204,7 @@ describe("LettersService", () => {
   describe("Email Configuration", () => {
     it("should throw error if ETHEREAL_EMAIL is not set", () => {
       delete process.env.ETHEREAL_EMAIL;
-      
+
       expect(() => {
         new LettersService();
       }).toThrow("ETHEREAL_EMAIL and ETHEREAL_PASSWORD must be set");
@@ -212,7 +212,7 @@ describe("LettersService", () => {
 
     it("should throw error if ETHEREAL_PASSWORD is not set", () => {
       delete process.env.ETHEREAL_PASSWORD;
-      
+
       expect(() => {
         new LettersService();
       }).toThrow("ETHEREAL_EMAIL and ETHEREAL_PASSWORD must be set");
@@ -275,7 +275,7 @@ describe("LettersService", () => {
 
       await service.create(letterData1);
       await service.create(letterData2);
-      
+
       const result = await service.sendPendingLetters();
 
       expect(mockSendMail).toHaveBeenCalledTimes(2);
@@ -307,9 +307,11 @@ describe("LettersService", () => {
       mockSendMail.mockRejectedValue(emailError);
 
       await service.create(letterData);
-      
-      await expect(service.sendPendingLetters()).rejects.toThrow("Email sending failed");
-      
+
+      await expect(service.sendPendingLetters()).rejects.toThrow(
+        "Email sending failed"
+      );
+
       expect(service.pendingLetters).toHaveLength(1);
     });
 
@@ -386,11 +388,17 @@ describe("LettersService", () => {
       mockSendMail.mockRejectedValue(emailError);
 
       await service.create(letterData);
-      
+
       await expect(service.sendPendingLetters()).rejects.toThrow();
-      
-      expect(console.error).toHaveBeenCalledWith("Error sending letter:", emailError);
-      expect(console.error).toHaveBeenCalledWith("Error sending letters:", emailError);
+
+      expect(console.error).toHaveBeenCalledWith(
+        "Error sending letter:",
+        emailError
+      );
+      expect(console.error).toHaveBeenCalledWith(
+        "Error sending letters:",
+        emailError
+      );
     });
   });
 });

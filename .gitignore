@@ -1,4 +1,5 @@
 .glitchdotcom.json
 .node-gyp
 .env
+coverage
 node_modules
