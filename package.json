@@ -6,7 +6,7 @@
   "scripts": {
     "start:vite": "vite --port 3000",
     "start": "ts-node -r dotenv/config server.ts",
-    "dev": "ts-node-dev --respawn server.ts",
+    "dev": "ts-node-dev --respawn -r dotenv/config server.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
