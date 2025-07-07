@@ -19,6 +19,7 @@
       "@customTypes/*": ["./src/shared/types/*"],
       "@constants/*": ["./src/shared/constants/*"],
       "@services/*": ["./src/services/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
       "@/*": ["./src/*"]
     }
   },

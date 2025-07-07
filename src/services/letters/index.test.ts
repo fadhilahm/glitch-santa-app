@@ -167,7 +167,7 @@ describe("LettersService", () => {
 
       await service.create(letterData);
       const pendingRef = service.pendingLetters;
-      
+
       expect(service.pendingLetters).toBe(pendingRef);
     });
   });

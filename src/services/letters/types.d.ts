@@ -3,4 +3,4 @@ export type Letter = {
   username: string;
   address: string;
   message: string;
-}
+};

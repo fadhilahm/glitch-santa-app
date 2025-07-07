@@ -22,7 +22,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "request": "^2.88.2",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.25.75"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
