@@ -4,3 +4,10 @@ export type Letter = {
   address: string;
   message: string;
 };
+
+export type Email = {
+  from: string;
+  to: string;
+  subject: string;
+  text: string;
+};
