@@ -24,8 +24,8 @@ class SchedulerService {
   ) {
     this.lettersService = lettersService;
     this._config = {
-      intervalMinutes: 1, // for testing
-      //   intervalMinutes: 15,
+      // intervalMinutes: 1, // for testing
+        intervalMinutes: 15,
       enabled: true,
       ...config,
     };

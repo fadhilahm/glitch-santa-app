@@ -10,7 +10,6 @@ import AuthorizationService from "../services/authorization";
 const router = Router();
 const authService = new AuthorizationService();
 
-// Helper function to render HTML template with variable substitution
 const renderTemplate = (templatePath: string, variables: Record<string, string> = {}) => {
   let template = fs.readFileSync(templatePath, 'utf8');
   Object.entries(variables).forEach(([key, value]) => {
@@ -41,14 +40,12 @@ router.post(
         return response.status(validationResult.error?.code || 400).send(errorTemplate);
       }
 
-      // Create the letter if validation passed
-      const letter = await lettersService.create({
+      await lettersService.create({
         username,
         address,
         message,
       });
 
-      // Render success page
       const successTemplate = renderTemplate(
         path.join(__dirname, "../views/success.html"),
         { USERNAME: validationResult.user?.username || username }
