@@ -1,3 +1,5 @@
+import { ErrorResponse, HttpCode } from "@customTypes/response";
+
 export interface User {
   id: string;
   username: string;
@@ -14,5 +16,8 @@ export interface UserProfile {
 export interface ValidationResult {
   isValid: boolean;
   user?: User;
-  error?: string;
+  error?: {
+    code: HttpCode;
+    message: string;
+  };
 }
