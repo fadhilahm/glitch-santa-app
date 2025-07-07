@@ -32,7 +32,7 @@ class AuthorizationService {
   async validateUser(userId: string): Promise<ValidationResult> {
     await this.fetchUserData();
 
-    const user = this.users.find((u) => u.id === userId);
+    const user = this.users.find(u => u.id === userId);
     if (!user) {
       return {
         isValid: false,
@@ -43,7 +43,7 @@ class AuthorizationService {
       };
     }
 
-    const profile = this.userProfiles.find((p) => p.userID === userId);
+    const profile = this.userProfiles.find(p => p.userID === userId);
     if (!profile) {
       return {
         isValid: false,
