@@ -23,7 +23,7 @@ router.post(
         address,
         message,
       });
-      response.json(letter);
+      response.redirect('/');
     } catch (error) {
       next(error);
     }

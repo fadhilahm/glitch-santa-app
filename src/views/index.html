@@ -37,16 +37,21 @@
     <main>
       <p class="bold">Ho ho ho, what you want for Christmas?</p>
 
-      who are you?
-      <input name="userid" placeholder="charlie.brown" />
-      <form method="post">
+      <form method="post" action="/">
+        who are you?
+        <input name="username" placeholder="charlie.brown" maxlength="25" required />
+        <br /><br />
+        what's your address?
+        <input name="address" placeholder="123 North Pole Lane" maxlength="50" required />
+        <br /><br />
         what do you want for christmas?
         <textarea
-          name="wish"
+          name="message"
           rows="10"
           cols="45"
           maxlength="100"
           placeholder="Gifts!"
+          required
         ></textarea>
         <br />
         <button type="submit" id="submit-letter">Send</button>
