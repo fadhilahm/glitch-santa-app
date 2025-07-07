@@ -59,3 +59,50 @@ footer {
   padding-top: 25px;
   border-top: 1px solid lightgrey;
 }
+
+/* Error and Success page styles */
+.error-container, .success-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-container {
+  background-color: #ffe6e6;
+  border: 2px solid #ff9999;
+}
+
+.success-container {
+  background-color: #e6ffe6;
+  border: 2px solid #99ff99;
+}
+
+.error-message {
+  color: #cc0000;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.button, a.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #373fff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover, a.button:hover {
+  background-color: #2929cc;
+}
+
+.button:active, a.button:active {
+  background-color: #1f1f99;
+}

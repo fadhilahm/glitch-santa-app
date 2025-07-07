@@ -1,21 +1,24 @@
 import { ErrorResponse, HttpCode } from "@customTypes/response";
 
 export interface User {
-  id: string;
   username: string;
+  uid: string;
+}
+
+export interface UserProfile {
+  userUid: string;
+  address: string;
+  birthdate: string; // YYYY/MM/DD
+}
+
+export interface ValidatedUser extends User {
   age: number;
   address: string;
 }
 
-export interface UserProfile {
-  userID: string;
-  name: string;
-  birthdate: string;
-}
-
 export interface ValidationResult {
   isValid: boolean;
-  user?: User;
+  user?: ValidatedUser;
   error?: {
     code: HttpCode;
     message: string;

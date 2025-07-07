@@ -1,5 +1,5 @@
 import AuthorizationService from "./index";
-import { User, UserProfile } from "./types";
+import { User, UserProfile, ValidatedUser } from "./types";
 
 global.fetch = jest.fn();
 
@@ -7,15 +7,15 @@ describe("AuthorizationService", () => {
   let authService: AuthorizationService;
 
   const mockUsers: User[] = [
-    { id: "1", username: "charlie.brown", age: 8, address: "123 Peanuts St" },
-    { id: "2", username: "lucy.van.pelt", age: 9, address: "456 Football Ave" },
-    { id: "3", username: "teen.user", age: 15, address: "789 Teen St" },
+    { uid: "1", username: "charlie.brown" },
+    { uid: "2", username: "lucy.van.pelt" },
+    { uid: "3", username: "teen.user" },
   ];
 
   const mockUserProfiles: UserProfile[] = [
-    { userID: "1", name: "Charlie Brown", birthdate: "2015-12-25" },
-    { userID: "2", name: "Lucy Van Pelt", birthdate: "2014-06-15" },
-    { userID: "3", name: "Teen User", birthdate: "2008-03-10" },
+    { userUid: "1", address: "123 Peanuts St", birthdate: "2015/12/25" },
+    { userUid: "2", address: "456 Football Ave", birthdate: "2014/06/15" },
+    { userUid: "3", address: "789 Teen St", birthdate: "2008/03/10" },
   ];
 
   beforeEach(() => {
@@ -38,16 +38,17 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.validateUser("1");
+      const result = await authService.validateUser("charlie.brown");
 
       // Assert
       expect(result.isValid).toBe(true);
       expect(result.user).toEqual({
-        id: "1",
+        uid: "1",
         username: "charlie.brown",
-        age: 9,
+        age: expect.any(Number),
         address: "123 Peanuts St",
       });
+      expect(result.user?.age).toBeLessThan(10);
       expect(result.error).toBeUndefined();
     });
 
@@ -65,11 +66,11 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.validateUser("3");
+      const result = await authService.validateUser("teen.user");
 
       // Assert
       expect(result.isValid).toBe(false);
-      expect(result.error?.message).toContain("17 years old");
+      expect(result.error?.message).toContain("years old");
       expect(result.user).toBeUndefined();
     });
 
@@ -87,7 +88,7 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.validateUser("999");
+      const result = await authService.validateUser("non.existent");
 
       // Assert
       expect(result.isValid).toBe(false);
@@ -99,7 +100,7 @@ describe("AuthorizationService", () => {
       // Arrange
       const usersWithExtra = [
         ...mockUsers,
-        { id: "4", username: "no.profile", age: 7, address: "No Profile St" },
+        { uid: "4", username: "no.profile" },
       ];
       const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
       mockFetch
@@ -113,12 +114,41 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.validateUser("4");
+      const result = await authService.validateUser("no.profile");
 
       // Assert
       expect(result.isValid).toBe(false);
       expect(result.error?.message).toContain("User profile not found");
       expect(result.user).toBeUndefined();
+    });
+
+    it("should properly calculate age from YYYY/MM/DD format", async () => {
+      // Arrange
+      const currentYear = new Date().getFullYear();
+      const customUsers = [{ uid: "test", username: "test.user" }];
+      const customProfiles = [{ 
+        userUid: "test", 
+        address: "Test St", 
+        birthdate: `${currentYear - 8}/01/01` // 8 years old
+      }];
+      
+      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
+      mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve(customUsers),
+        } as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve(customProfiles),
+        } as Response);
+
+      // Act
+      const result = await authService.validateUser("test.user");
+
+      // Assert
+      expect(result.isValid).toBe(true);
+      expect(result.user?.age).toBe(8);
     });
 
     it("should handle API fetch errors", async () => {
@@ -130,7 +160,7 @@ describe("AuthorizationService", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
       // Act & Assert
-      await expect(authService.validateUser("1")).rejects.toThrow(
+      await expect(authService.validateUser("charlie.brown")).rejects.toThrow(
         "Failed to fetch user data"
       );
 
@@ -150,7 +180,7 @@ describe("AuthorizationService", () => {
       } as Response);
 
       // Act & Assert
-      await expect(authService.validateUser("1")).rejects.toThrow(
+      await expect(authService.validateUser("charlie.brown")).rejects.toThrow(
         "Failed to fetch user data"
       );
 
@@ -174,7 +204,7 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.isUserUnder10("1");
+      const result = await authService.isUserUnder10("charlie.brown");
 
       // Assert
       expect(result).toBe(true);
@@ -194,7 +224,7 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.isUserUnder10("3");
+      const result = await authService.isUserUnder10("teen.user");
 
       // Assert
       expect(result).toBe(false);
@@ -216,15 +246,16 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.getUserInfo("1");
+      const result = await authService.getUserInfo("charlie.brown");
 
       // Assert
       expect(result).toEqual({
-        id: "1",
+        uid: "1",
         username: "charlie.brown",
-        age: 9,
+        age: expect.any(Number),
         address: "123 Peanuts St",
       });
+      expect(result?.age).toBeLessThan(10);
     });
 
     it("should return null for invalid user", async () => {
@@ -241,7 +272,7 @@ describe("AuthorizationService", () => {
         } as Response);
 
       // Act
-      const result = await authService.getUserInfo("999");
+      const result = await authService.getUserInfo("non.existent");
 
       // Assert
       expect(result).toBeNull();

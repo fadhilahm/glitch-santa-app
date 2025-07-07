@@ -1,6 +1,6 @@
-import { HTTP_CODES } from "@constants/httpCodes";
-import { User, UserProfile, ValidationResult } from "./types";
-import { ERROR_MESSAGES } from "@constants/errorMessages";
+import { User, UserProfile, ValidationResult, ValidatedUser } from "./types";
+import { HTTP_CODES } from "../../shared/constants/httpCodes";
+import { ERROR_MESSAGES } from "../../shared/constants/errorMessages";
 
 class AuthorizationService {
   private users: User[] = [];
@@ -29,10 +29,10 @@ class AuthorizationService {
     }
   }
 
-  async validateUser(userId: string): Promise<ValidationResult> {
+  async validateUser(username: string): Promise<ValidationResult> {
     await this.fetchUserData();
 
-    const user = this.users.find(u => u.id === userId);
+    const user = this.users.find(u => u.username === username);
     if (!user) {
       return {
         isValid: false,
@@ -43,7 +43,7 @@ class AuthorizationService {
       };
     }
 
-    const profile = this.userProfiles.find(p => p.userID === userId);
+    const profile = this.userProfiles.find(p => p.userUid === user?.uid);
     if (!profile) {
       return {
         isValid: false,
@@ -54,7 +54,9 @@ class AuthorizationService {
       };
     }
 
-    const birthDate = new Date(profile.birthdate);
+    // Parse YYYY/MM/DD format safely
+    const [year, month, day] = profile.birthdate.split('/').map(Number);
+    const birthDate = new Date(year, month - 1, day); // month is 0-indexed
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
 
@@ -79,10 +81,10 @@ class AuthorizationService {
     return {
       isValid: true,
       user: {
-        id: user.id,
+        uid: user.uid,
         username: user.username,
-        age: age,
-        address: user.address,
+        age,
+        address: profile.address,
       },
     };
   }
@@ -92,8 +94,8 @@ class AuthorizationService {
     return result.isValid;
   }
 
-  async getUserInfo(userId: string): Promise<User | null> {
-    const result = await this.validateUser(userId);
+  async getUserInfo(username: string): Promise<ValidatedUser | null> {
+    const result = await this.validateUser(username);
     return result.isValid ? result.user || null : null;
   }
 }
