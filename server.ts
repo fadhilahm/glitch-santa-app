@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
-import path from "path";
 
 import indexRouter from "./src/routes/index";
 
