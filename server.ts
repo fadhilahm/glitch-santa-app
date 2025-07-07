@@ -3,6 +3,7 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 
 import indexRouter from "./src/routes/index";
+import LettersService from "./src/services/letters";
 
 const app = express();
 
@@ -11,6 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("combined"));
 
 app.use(express.static("public"));
+
+const lettersService = new LettersService();
+
+app.locals.lettersService = lettersService;
 
 app.use("/", indexRouter);
 
