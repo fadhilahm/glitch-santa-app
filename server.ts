@@ -1,7 +1,9 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import path from "path";
+
+import indexRouter from "./src/routes/index";
 
 const app = express();
 
@@ -11,9 +13,7 @@ app.use(morgan("combined"));
 
 app.use(express.static("public"));
 
-app.get("/", (request: any, response: any) => {
-  response.sendFile(path.join(__dirname, "/views/index.html"));
-});
+app.use("/", indexRouter);
 
 const listener = app.listen(process.env.PORT || 3000, function () {
   const address = listener.address();

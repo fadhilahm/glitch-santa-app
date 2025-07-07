@@ -2,13 +2,12 @@ import { Request, Response, NextFunction } from "express";
 
 import { ErrorWithCode } from "../shared/types/errors";
 import { HTTP_CODES } from "../shared/constants/httpCodes";
-import { ERROR_MESSAGES } from "../shared/constants/errorMessages";
 
 export const errorHandler = (
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   if (err instanceof ErrorWithCode) {
     res.status(err.code).json({ error: err.message });
