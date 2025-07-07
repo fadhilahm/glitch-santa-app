@@ -1,5 +1,9 @@
 # IMPORTANT! READ before starting
 
+<!-- eslint-disable -->
+<!-- prettier-ignore -->
+<!-- markdownlint-disable -->
+
 By default for anonymous users (non logged in), your code and app will only remain on glitch.com for 5 days.
 In order to not lose your challenge, please create a glitch.com account and log in to glitch.com before proceeding.
 
