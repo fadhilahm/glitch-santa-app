@@ -1,7 +1,9 @@
 import AuthorizationService from "./index";
 import { User, UserProfile, ValidatedUser } from "./types";
 
-global.fetch = jest.fn();
+jest.mock("node-fetch");
+import fetch from "node-fetch";
+const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
 
 describe("AuthorizationService", () => {
   let authService: AuthorizationService;
@@ -26,16 +28,15 @@ describe("AuthorizationService", () => {
   describe("validateUser", () => {
     it("should return valid for user under 10 years old", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.validateUser("charlie.brown");
@@ -54,16 +55,15 @@ describe("AuthorizationService", () => {
 
     it("should return invalid for user over 10 years old", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.validateUser("teen.user");
@@ -76,16 +76,15 @@ describe("AuthorizationService", () => {
 
     it("should return invalid for non-existent user", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.validateUser("non.existent");
@@ -102,16 +101,15 @@ describe("AuthorizationService", () => {
         ...mockUsers,
         { uid: "4", username: "no.profile" },
       ];
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(usersWithExtra),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.validateUser("no.profile");
@@ -134,16 +132,15 @@ describe("AuthorizationService", () => {
         },
       ];
 
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(customUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(customProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.validateUser("test.user");
@@ -158,8 +155,7 @@ describe("AuthorizationService", () => {
       const consoleSpy = jest
         .spyOn(console, "error")
         .mockImplementation(() => {});
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch.mockRejectedValueOnce(new Error("Network error"));
+      mockedFetch.mockRejectedValueOnce(new Error("Network error"));
 
       // Act & Assert
       await expect(authService.validateUser("charlie.brown")).rejects.toThrow(
@@ -175,11 +171,10 @@ describe("AuthorizationService", () => {
       const consoleSpy = jest
         .spyOn(console, "error")
         .mockImplementation(() => {});
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch.mockResolvedValueOnce({
+      mockedFetch.mockResolvedValueOnce({
         ok: false,
         status: 500,
-      } as Response);
+      } as any);
 
       // Act & Assert
       await expect(authService.validateUser("charlie.brown")).rejects.toThrow(
@@ -194,16 +189,15 @@ describe("AuthorizationService", () => {
   describe("isUserUnder10", () => {
     it("should return true for user under 10", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.isUserUnder10("charlie.brown");
@@ -214,16 +208,15 @@ describe("AuthorizationService", () => {
 
     it("should return false for user 10 or older", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.isUserUnder10("teen.user");
@@ -236,16 +229,15 @@ describe("AuthorizationService", () => {
   describe("getUserInfo", () => {
     it("should return user info for valid user", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.getUserInfo("charlie.brown");
@@ -262,16 +254,15 @@ describe("AuthorizationService", () => {
 
     it("should return null for invalid user", async () => {
       // Arrange
-      const mockFetch = global.fetch as jest.MockedFunction<typeof fetch>;
-      mockFetch
+      mockedFetch
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUsers),
-        } as Response)
+        } as any)
         .mockResolvedValueOnce({
           ok: true,
           json: () => Promise.resolve(mockUserProfiles),
-        } as Response);
+        } as any);
 
       // Act
       const result = await authService.getUserInfo("non.existent");
