@@ -1,3 +1,5 @@
+import fetch from "node-fetch";
+
 import { User, UserProfile, ValidationResult, ValidatedUser } from "./types";
 import { HTTP_CODES } from "../../shared/constants/httpCodes";
 import { ERROR_MESSAGES } from "../../shared/constants/errorMessages";
@@ -21,8 +23,8 @@ class AuthorizationService {
         throw new Error(ERROR_MESSAGES.FETCH_USER_DATA_FAILED);
       }
 
-      this.users = await usersResponse.json();
-      this.userProfiles = await profilesResponse.json();
+      this.users = (await usersResponse.json()) as User[];
+      this.userProfiles = (await profilesResponse.json()) as UserProfile[];
     } catch (error) {
       console.error("Error fetching user data:", error);
       throw new Error(ERROR_MESSAGES.FETCH_USER_DATA_FAILED);
