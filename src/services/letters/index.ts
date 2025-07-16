@@ -15,6 +15,10 @@ class LettersService {
     this.sentLetters = [];
     const etherealEmail = process.env.ETHEREAL_EMAIL;
     const etherealPassword = process.env.ETHEREAL_PASSWORD;
+
+    console.log("🔥ETHEREAL_EMAIL", etherealEmail);
+    console.log("🔥ETHEREAL_PASSWORD", etherealPassword);
+
     if (!etherealEmail || !etherealPassword) {
       throw new Error("ETHEREAL_EMAIL and ETHEREAL_PASSWORD must be set");
     }

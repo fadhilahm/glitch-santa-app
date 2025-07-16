@@ -2,9 +2,9 @@
 node_modules
 npm-debug.log*
 
-# Build outputs (will be generated during build)
+# Build outputs (will be generated during build) 
 dist
-public
+# Note: public directory contains CSS/JS files needed during build
 
 # Environment and config files
 .env

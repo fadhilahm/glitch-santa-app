@@ -15,6 +15,7 @@ RUN npm ci
 COPY server.ts ./
 COPY src/ ./src/
 COPY index.html ./
+COPY public/ ./public/
 
 # Build the application (frontend goes to public/dist, backend to dist/)
 RUN npm run build
