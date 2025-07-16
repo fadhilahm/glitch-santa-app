@@ -53,7 +53,7 @@
     "vite": "^4.2.1"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "repository": {
     "url": "https://github.com/alj-devops/santa-app"
