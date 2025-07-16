@@ -2,6 +2,7 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
+import path from "path";
 
 import indexRouter from "./src/routes/index";
 import LettersService from "./src/services/letters";
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("combined"));
 
+// Serve static files from public directory
 app.use(express.static("public"));
 
 const lettersService = new LettersService();
@@ -22,6 +24,11 @@ app.locals.lettersService = lettersService;
 app.locals.schedulerService = schedulerService;
 
 app.use("/", indexRouter);
+
+// Serve React app for any other routes (SPA fallback)
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../public/dist/index.html"));
+});
 
 const listener = app.listen(process.env.PORT || 3000, function () {
   const address = listener.address();

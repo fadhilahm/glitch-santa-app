@@ -5,8 +5,12 @@
   "main": "server.ts",
   "scripts": {
     "start:vite": "vite --port 3000",
-    "start": "ts-node -r dotenv/config server.ts",
+    "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn -r dotenv/config server.ts",
+    "build": "npm run build:frontend && npm run build:backend && npm run copy:views",
+    "build:frontend": "vite build",
+    "build:backend": "tsc --project tsconfig.json",
+    "copy:views": "cp -r src/views dist/src/",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -49,7 +53,7 @@
     "vite": "^4.2.1"
   },
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "repository": {
     "url": "https://github.com/alj-devops/santa-app"

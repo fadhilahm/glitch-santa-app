@@ -1,0 +1,36 @@
+# Development files
+src/
+*.ts
+*.tsx
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+
+# Tests
+**/*.test.*
+**/*.spec.*
+jest.config.js
+
+# Development dependencies and configs
+.env
+.env.local
+.env.development
+.env.test
+.gitignore
+README.md
+
+# Node modules (handled by Vercel)
+node_modules/
+
+# Build artifacts (keep dist/)
+# dist/ is needed for the compiled server
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log 

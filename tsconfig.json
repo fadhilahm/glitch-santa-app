@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -13,8 +12,9 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": "./",
     "paths": {
       "@customTypes/*": ["./src/shared/types/*"],
       "@constants/*": ["./src/shared/constants/*"],
@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["server.ts", "src/**/*"],
+  "exclude": ["src/main.tsx", "dist", "node_modules", "**/*.test.ts"]
 }
