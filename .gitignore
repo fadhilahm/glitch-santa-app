@@ -2,4 +2,3 @@
 .node-gyp
 coverage
 node_modules
-.env
