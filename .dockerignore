@@ -1,0 +1,6 @@
+.glitchdotcom.json
+.node-gyp
+coverage
+node_modules
+.env
+public
