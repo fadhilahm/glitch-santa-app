@@ -1,5 +1,5 @@
 # fly.toml app configuration file
-app = "santa-app"
+app = "glitch-santa-app"
 primary_region = "sjc"
 
 [build]
