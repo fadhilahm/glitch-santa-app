@@ -4,5 +4,3 @@ coverage
 node_modules
 .env
 public
-dist
-.vercel
