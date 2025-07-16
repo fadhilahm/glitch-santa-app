@@ -1,6 +1,48 @@
-.glitchdotcom.json
-.node-gyp
-coverage
+# Dependencies
 node_modules
-.env
+npm-debug.log*
+
+# Build outputs (will be generated during build)
+dist
 public
+
+# Environment and config files
+.env
+.env.local
+.env.production
+
+# Development files
+coverage
+.nyc_output
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode
+.idea
+
+# Git
+.git
+.gitignore
+
+# Test files
+**/*.test.*
+**/__tests__/**
+
+# Logs
+*.log
+logs
+
+# Glitch specific
+.glitchdotcom.json
+
+# Temporary files
+*.tmp
+*.temp
